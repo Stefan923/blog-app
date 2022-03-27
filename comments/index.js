@@ -12,16 +12,16 @@ app.get('/posts/:id/comments', (req, res) => {
 });
 
 app.post('/posts/:id/comments', (req, res) => {
-    const commentId = ramdonBytes(4).toString('hex');
+    const commentId = randomBytes(4).toString('hex');
     const { content } = req.body;
 
-    const comments = commentsByPostId[req.params.id];
+    const comments = commentsByPostId[req.params.id] || [];
     
     comments.push({ id: commentId, content });
 
     commentsByPostId[req.params.id] = comments;
 
-    req.status(201).send(comments);
+    res.status(201).send(comments);
 });
 
 app.listen(4001, () => {
